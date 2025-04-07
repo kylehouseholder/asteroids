@@ -1,26 +1,33 @@
 import pygame
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
+# comment block for testing purposes
 def main():
     pygame.init()
-    black = (0, 0, 0)
-    white = (255, 255, 255)
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    clock = pygame.time.Clock()
+    dt = 0
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
-    dt = 0
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
     
     update_G = pygame.sprite.Group()
-    draw_G = pygame.sprite.Group()              
+    draw_G = pygame.sprite.Group()
+    asteroid_G = pygame.sprite.Group()
+
     Player.containers = (update_G, draw_G)
-    ship = Player(x, y)  
+    Asteroid.containers = (asteroid_G, update_G, draw_G)
+    AsteroidField.containers = (update_G)
+
+    ship = Player(x, y)
+    field = AsteroidField()
 
     while True:
-        screen.fill(black)
+        screen.fill(BLACK)
         dt = clock.tick()/1000
-        for event in pygame.event.get():    
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
 
