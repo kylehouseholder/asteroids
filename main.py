@@ -32,7 +32,12 @@ def main():
                 return
 
         update_G.update(dt)
-        
+
+        for entity in asteroid_G:
+            if ship.hasCollision(entity):
+                print("Game over!")
+                raise SystemExit
+
         for entity in draw_G:
             entity.draw(screen)
             
