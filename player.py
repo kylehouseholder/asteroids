@@ -10,6 +10,7 @@ class Player(CircleShape):
                 for group in self.containers:
                     group.add(self)
         self.rotation = 0
+        self.reload = 0
     
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -30,10 +31,15 @@ class Player(CircleShape):
         self.position += forward * PLAYER_SPEED * dt
 
     def fire(self):
-        shot = Shot(self.position)
-        shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        if self.reload > 0:
+            pass
+        else:
+            shot = Shot(self.position)
+            shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+            self.reload = RELOAD_TIME
 
     def update(self, dt):
+        self.reload -= dt
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
             self.rotate(-dt)

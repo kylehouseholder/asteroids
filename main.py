@@ -22,7 +22,7 @@ def main():
     Player.containers = (update_G, draw_G)
     Asteroid.containers = (asteroid_G, update_G, draw_G)
     AsteroidField.containers = (update_G)
-    Shot.containers = (update_G, draw_G)
+    Shot.containers = (shots_G, update_G, draw_G)
 
     ship = Player(x, y)
     field = AsteroidField()
@@ -36,10 +36,14 @@ def main():
 
         update_G.update(dt)
 
-        for entity in asteroid_G:
-            if ship.hasCollision(entity):
+        for asteroid in asteroid_G:
+            if ship.hasCollision(asteroid):
                 print("Game over!")
                 raise SystemExit
+            for shot in shots_G:
+                if asteroid.hasCollision(shot):
+                    shot.kill()
+                    asteroid.split()        
 
         for entity in draw_G:
             entity.draw(screen)
